@@ -1,0 +1,3 @@
+const PURCHASE_LIMIT = 999999;
+
+export { PURCHASE_LIMIT };

@@ -1,0 +1,63 @@
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.mt-8 {
+  margin-top: 8rem;
+}
+
+.mt-13 {
+  margin-top: 13rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.input:focus {
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: all ease-in-out 0.3s;
+}
+
+.no-shadow-btn:focus {
+  box-shadow: none;
+}
+
+.brand-logo {
+  font-family: "Great Vibes", cursive;
+  font-size: 1.5rem;
+}
+
+.carousel-img {
+  height: 22rem;
+  object-fit: contain;
+}
+
+.productId-carousel ol li {
+  background-color: #17a2b8;
+  height: 4px;
+  width: 30px;
+}
+
+.card-img,
+.productId-img {
+  height: 18rem;
+  object-fit: contain !important;
+}
+
+.preview-img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: contain;
+}
+
+.preview-imgs {
+  overflow-x: auto;
+}
+
+@media (min-width: 1024px) {
+  .productId-img {
+    height: 30rem;
+  }
+}
