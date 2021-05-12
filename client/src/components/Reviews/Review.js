@@ -56,11 +56,11 @@ function Review({ review, productId, userId, handleRefresh }) {
             className="text-info font-weight-bold pointer"
             onClick={() => setTruncate((prevValue) => !prevValue)}
           >
-            {truncate ? (
-              "...Read more"
-            ) : (
-              <span className="ml-2">Read less</span>
-            )}
+            {truncate
+              ? "...Read more"
+              : review.body.length > 120 && (
+                  <span className="ml-2">Read less</span>
+                )}
           </span>
         </p>
       )}
