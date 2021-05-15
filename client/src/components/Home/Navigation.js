@@ -46,6 +46,10 @@ function Navigation({ history }) {
         </Form>
 
         <Nav className="ml-auto mr-4">
+          <LinkContainer to="/" exact>
+            <Nav.Link>Home</Nav.Link>
+          </LinkContainer>
+
           <LinkContainer to="/cart">
             <Nav.Link>Cart</Nav.Link>
           </LinkContainer>

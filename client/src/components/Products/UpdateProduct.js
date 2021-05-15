@@ -29,14 +29,8 @@ function UpdateProduct({ location: { state }, history }) {
 
   useEffect(() => {
     if (state && state.product) {
-      const {
-        name,
-        description,
-        category,
-        price,
-        stock,
-        images,
-      } = state.product;
+      const { name, description, category, price, stock, images } =
+        state.product;
       setValues({ name, description, category, price, stock, images });
     }
   }, [state, setValues]);
@@ -171,7 +165,7 @@ function UpdateProduct({ location: { state }, history }) {
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   type="number"
-                  min="1"
+                  min="0"
                   name="stock"
                   className="input"
                   value={values.stock}
