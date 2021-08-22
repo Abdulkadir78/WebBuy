@@ -14,6 +14,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 
 import { OrderContext } from "../../contexts/Order";
+import { AuthContext } from "../../contexts/Auth";
 import { calculateTotal, calculateTotalItems } from "../../helpers/calculate";
 import convertDateString from "../../helpers/convertDateString";
 import Navigation from "../Home/Navigation";
@@ -22,6 +23,7 @@ import Error from "../Miscellaneous/Error";
 import DismissableError from "../Miscellaneous/DismissableError";
 
 function OrderById({ match: { params } }) {
+  const { userId } = useContext(AuthContext);
   const { getOrderById, payForOrder } = useContext(OrderContext);
 
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ function OrderById({ match: { params } }) {
     setTimeout(() => {
       fetchOrder();
     }, 1000);
-  }, [params.orderId, getOrderById, setError, setLoading, setOrder]);
+  }, [params.orderId, getOrderById, setError, setLoading, setOrder, userId]);
 
   const handlePay = async (order) => {
     setPayError("");
@@ -175,58 +177,62 @@ function OrderById({ match: { params } }) {
                       {calculateTotal(order.orderItems).toLocaleString()}
                     </ListGroup.Item>
 
-                    {order.paymentMethod === "card" && !order.isPaid && (
-                      <ListGroup.Item>
-                        <Button
-                          variant="dark"
-                          className="form-control no-shadow-btn"
-                          disabled={payLoading}
-                          onClick={() => handlePay(order)}
-                        >
-                          {!payLoading ? (
-                            "Pay"
-                          ) : (
-                            <Spinner animation="border" size="sm" />
-                          )}
-                        </Button>
-                      </ListGroup.Item>
-                    )}
+                    {order.paymentMethod === "card" &&
+                      !order.isPaid &&
+                      order.buyer === userId && (
+                        <ListGroup.Item>
+                          <Button
+                            variant="dark"
+                            className="form-control no-shadow-btn"
+                            disabled={payLoading}
+                            onClick={() => handlePay(order)}
+                          >
+                            {!payLoading ? (
+                              "Pay"
+                            ) : (
+                              <Spinner animation="border" size="sm" />
+                            )}
+                          </Button>
+                        </ListGroup.Item>
+                      )}
                   </ListGroup>
                 </Card>
 
                 <div className="text-center my-3">
-                  {order.paymentMethod === "card" && !order.isPaid && (
-                    <OverlayTrigger
-                      trigger="click"
-                      placement="bottom"
-                      show={showPopover}
-                      overlay={
-                        <Popover>
-                          <Popover.Title className="h3 text-center">
-                            Dummy card details
-                          </Popover.Title>
-                          <Popover.Content>
-                            <strong>Card number</strong>: 4242 4242 4242 4242
-                            <br />
-                            <strong>Expiration date</strong>: Any future date
-                            <br />
-                            <strong>CVC</strong>: Any 3 digit number
-                          </Popover.Content>
-                        </Popover>
-                      }
-                    >
-                      <Button
-                        variant="info"
-                        className="no-shadow-btn"
-                        onClick={() =>
-                          setShowPopover((prevValue) => !prevValue)
+                  {order.paymentMethod === "card" &&
+                    !order.isPaid &&
+                    order.buyer === userId && (
+                      <OverlayTrigger
+                        trigger="click"
+                        placement="bottom"
+                        show={showPopover}
+                        overlay={
+                          <Popover>
+                            <Popover.Title className="h3 text-center">
+                              Dummy card details
+                            </Popover.Title>
+                            <Popover.Content>
+                              <strong>Card number</strong>: 4242 4242 4242 4242
+                              <br />
+                              <strong>Expiration date</strong>: Any future date
+                              <br />
+                              <strong>CVC</strong>: Any 3 digit number
+                            </Popover.Content>
+                          </Popover>
                         }
                       >
-                        {showPopover ? "Hide " : "Show "}
-                        card
-                      </Button>
-                    </OverlayTrigger>
-                  )}
+                        <Button
+                          variant="info"
+                          className="no-shadow-btn"
+                          onClick={() =>
+                            setShowPopover((prevValue) => !prevValue)
+                          }
+                        >
+                          {showPopover ? "Hide " : "Show "}
+                          card
+                        </Button>
+                      </OverlayTrigger>
+                    )}
                 </div>
               </Col>
             </Row>
